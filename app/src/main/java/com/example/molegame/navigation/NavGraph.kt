@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.molegame.ui.game.GameScreen
 import com.example.molegame.ui.start.StartScreen
 
 @Composable
@@ -16,7 +17,7 @@ fun NavGraph(navController: NavHostController) {
             StartScreen(onNavigateUp = { navController.navigateUp() }, onNavigate = navController::navigate)
         }
         composable(route = Route.game){
-
+            GameScreen(onNavigateUp = { navController.navigateUp() }, onNavigate = navController::navigate)
         }
         composable(route = Route.result){
 
