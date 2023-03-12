@@ -1,5 +1,6 @@
 package com.example.molegame.ui.game
 
+import android.util.Log
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
@@ -57,11 +58,17 @@ fun GameScreen(
                 viewModel.onEvent(GameEvent.OnPause)
             }
             Lifecycle.Event.ON_RESUME -> {
-                if (viewModel.state.time != 30000L)
+                if (viewModel.state.time != 30000L && viewModel.state.time != 0L)
                     viewModel.onEvent(GameEvent.OnResume)
             }
             else -> { /* other stuff */
             }
+        }
+    }
+    DisposableEffect(key1 = true){
+        onDispose {
+            if(viewModel.state.time!=0L)
+                viewModel.onEvent(GameEvent.OnGameCanceled)
         }
     }
     val image = ImageBitmap.imageResource(id = R.drawable.grass)
@@ -143,13 +150,17 @@ fun HoleContainer(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = null,
             ) {
-                onClick()
-                isPunched = true
+                if (moleState < 25f) {//we see half of the mole
+                    onClick()
+                    isPunched = true
+                }
             },
     ) {
         val (hole, mole) = createRefs()
         Surface(
-            shape = OvalCornerShape(40.dp),
+            shape = remember {
+                OvalCornerShape()
+            } ,
             color = Color(0xff303030),
             modifier = Modifier
                 .width(50.dp)
@@ -173,7 +184,9 @@ fun HoleContainer(
                     end.linkTo(parent.end)
                 }
                 .clip(
-                    RectangleShapeToClip(1f)
+                    remember {
+                        RectangleShapeToClip(1f)
+                    }
                 )
                 .offset(y = moleState.dp),
             contentScale = ContentScale.FillWidth,
@@ -185,7 +198,7 @@ fun HoleContainer(
 }
 
 class OvalCornerShape(
-    size: Dp
+
 ) : Shape {
 
     override fun createOutline(

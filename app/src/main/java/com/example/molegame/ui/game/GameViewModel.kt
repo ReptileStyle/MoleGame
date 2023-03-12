@@ -39,7 +39,7 @@ class GameViewModel @Inject constructor(
         )
     }
 
-    private val timer = object : SonicCountDownTimer(30000, 50) {
+    private val timer = object : SonicCountDownTimer(3000, 50) {
         override fun onTimerFinish() {
             state = state.copy(time = 0L)
             if (state.score > state.recordScore) {
@@ -73,25 +73,27 @@ class GameViewModel @Inject constructor(
             is GameEvent.OnResume -> {
                 timer.resumeCountDownTimer()
             }
+            is GameEvent.OnGameCanceled ->{
+                clearState()
+                timer.cancelCountDownTimer()
+            }
         }
     }
 
-    private fun smashHole(position: Int) {
-        if (state.molePosition == position) {
-            if (!state.isGameStarted) {
-                state = state.copy(
-                    isGameStarted = true,
-                    molePosition = generateNewMolePosition(position)
-                )
-                timer.startCountDownTimer()
-            } else {
-                state = state.copy(
-                    molePosition = generateNewMolePosition(position),
-                    score = state.score + 1
-                )
-            }
-            refreshReplaceMoleJob()
+    private fun smashHole(position: Int) {//we check if smash was correct in HoleContainer(if we see more, than half of the mole)
+        if (!state.isGameStarted) {
+            state = state.copy(
+                isGameStarted = true,
+                molePosition = generateNewMolePosition(position)
+            )
+            timer.startCountDownTimer()
+        } else {
+            state = state.copy(
+                molePosition = generateNewMolePosition(position),
+                score = state.score + 1
+            )
         }
+        refreshReplaceMoleJob()
     }
 
     private fun generateNewMolePosition(currentPosition: Int): Int {
@@ -110,8 +112,8 @@ class GameViewModel @Inject constructor(
     }
 
     private fun clearState() {
-        state = GameState()
-        state = state.copy(
+        replaceMoleJob?.cancel()
+        state = GameState().copy(
             recordScore = sharedPref.getInt(Constants.savedRecordScore, 0)
         )
     }

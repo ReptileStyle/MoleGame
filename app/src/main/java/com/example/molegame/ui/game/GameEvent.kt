@@ -6,4 +6,5 @@ sealed class GameEvent {
 
     object OnPause:GameEvent()
     object OnResume:GameEvent()
+    object OnGameCanceled:GameEvent()
 }

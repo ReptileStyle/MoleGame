@@ -80,7 +80,7 @@ fun FinishScreen(
             ElevatedButton(
                 Modifier
                     .fillMaxWidth(),
-                onClick = { onNavigate(Route.start, false) }
+                onClick = { onNavigate(Route.start, true) }
             ) {
                 Text(text = "Menu", color = Color.White, fontSize = 18.sp)
             }

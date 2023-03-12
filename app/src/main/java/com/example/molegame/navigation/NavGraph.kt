@@ -20,7 +20,7 @@ fun NavGraph(
         startDestination = Route.start
     ) {
         composable(route = Route.start){
-            StartScreen(onNavigateUp = { navController.navigateUp() }, onNavigate = navController::navigate)
+            StartScreen(onNavigateUp = { navController.navigateUp() }, onNavigate = navController::navigate, viewModel = viewModel)
         }
         composable(route = Route.game){
             GameScreen(onNavigateUp = { navController.navigateUp() }, onNavigate = navController::navigate, viewModel = viewModel)
