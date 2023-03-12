@@ -150,7 +150,7 @@ fun HoleContainer(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = null,
             ) {
-                if (moleState < 25f) {//we see half of the mole
+                if (moleState < 25f && !isPunched) {//we see half of the mole
                     onClick()
                     isPunched = true
                 }
