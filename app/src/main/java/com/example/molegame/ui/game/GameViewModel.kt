@@ -39,7 +39,7 @@ class GameViewModel @Inject constructor(
         )
     }
 
-    private val timer = object : SonicCountDownTimer(3000, 50) {
+    private val timer = object : SonicCountDownTimer(30000, 50) {
         override fun onTimerFinish() {
             state = state.copy(time = 0L)
             if (state.score > state.recordScore) {
