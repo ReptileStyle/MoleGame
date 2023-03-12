@@ -12,10 +12,12 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
@@ -26,15 +28,16 @@ import androidx.compose.ui.graphics.*
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Density
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.LayoutDirection
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.*
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
 import com.example.molegame.R
 import com.example.molegame.core.UiEvent
+import com.example.molegame.navigation.Route
 import com.example.molegame.navigation.Route.start
+import com.example.molegame.ui.components.OnLifecycleEvent
+import com.example.molegame.ui.components.ProgressIndicator
 import kotlinx.coroutines.NonDisposableHandle.parent
 import kotlinx.coroutines.flow.collect
 import kotlin.math.ceil
@@ -55,10 +58,25 @@ fun GameScreen(
             }
         }
     }
+    OnLifecycleEvent { owner, event ->
+        // do stuff on event
+        when (event) {
+            Lifecycle.Event.ON_PAUSE -> { viewModel.onEvent(GameEvent.OnPause) }
+            Lifecycle.Event.ON_RESUME -> {
+                if(viewModel.state.time!=30000L)
+                    viewModel.onEvent(GameEvent.OnResume)
+            }
+            else -> { /* other stuff */ }
+        }
+    }
     Scaffold() {
-        Column(Modifier.padding(it)) {
-            Text(text="Score: ${viewModel.state.score}")
-            Text(text="Time: ${viewModel.state.time/1000}")
+        Column(Modifier.padding(it), horizontalAlignment = Alignment.CenterHorizontally) {
+
+            Spacer(modifier = Modifier.height(88.dp))
+            Text(text="Score: ${viewModel.state.score}", fontSize = 20.sp)
+            Spacer(modifier = Modifier.height(12.dp))
+            ProgressIndicator(progress = viewModel.state.time.toFloat()/30000)
+            Spacer(modifier = Modifier.height(100.dp))
             LazyVerticalGrid(
                 columns = GridCells.Fixed(3),
                 verticalArrangement = Arrangement.spacedBy(16.dp),

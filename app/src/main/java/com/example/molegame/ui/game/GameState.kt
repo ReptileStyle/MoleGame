@@ -4,5 +4,6 @@ data class GameState(
     val molePosition:Int = 4,
     val score:Int = 0,
     val time: Long = 30000,
-    val isGameStarted:Boolean = false
+    val isGameStarted:Boolean = false,
+    val recordScore:Int = 0,
 )

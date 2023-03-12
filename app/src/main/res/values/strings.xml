@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MoleGame</string>
+    <string name="description">In the slaughtering game "Whac-A-Mole" you will plunge into a ruthless battle against 9 holes, in which the evil moles appear! You only have 30 seconds to show everyone who the real hero here is! Your task is to click on the moles as quickly as possible and collect the most points. Are you ready for this challenge?</string>
+    <string name="congratulations">Congratulations on your new record in the game "Whac-A-Mole"! Your skill at clicking on moles was excellent. Be proud of your accomplishment and keep fighting moles. Good luck in the next rounds!</string>
 </resources>
