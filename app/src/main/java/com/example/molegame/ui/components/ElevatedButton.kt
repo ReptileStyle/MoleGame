@@ -46,7 +46,7 @@ fun ElevatedButton(
         contentPadding = contentPadding,
         shape = RoundedCornerShape(cornerSize),
         colors = androidx.compose.material.ButtonDefaults.buttonColors(
-            backgroundColor = Color(0xff9c27b0),
+            backgroundColor = Color(0xffb4d259),
             contentColor = Color.White,
             disabledBackgroundColor = Color.White,
             disabledContentColor = Color.White

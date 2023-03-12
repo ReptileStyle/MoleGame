@@ -42,7 +42,7 @@ fun FinishScreen(
                 Spacer(modifier = Modifier.height(180.dp))
                 Surface(
                     modifier = Modifier.wrapContentSize(),
-                    border = BorderStroke(1.dp, Color(0xff7b1fa2)),
+                    border = BorderStroke(1.dp, Color(0xffb4d259)),
                     shape = RoundedCornerShape(15.dp)
                 ) {
                     Column(modifier = Modifier.padding(8.dp),horizontalAlignment = Alignment.CenterHorizontally) {
